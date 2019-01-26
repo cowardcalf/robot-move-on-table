@@ -1,6 +1,10 @@
 import chalk from 'chalk';
 import figlet from 'figlet';
 import inquirer from 'inquirer';
+import Table from './Table';
+import CommandManager from './CommandManager.js';
+import Robot from './Robot.js';
+import { logStd, logDebug } from './lib/logger.js';
 
 const askQuestions = () => {
   const questions = [
@@ -12,6 +16,21 @@ const askQuestions = () => {
   ];
   return inquirer.prompt(questions);
 };
+
+/**
+ * Parse and transform the string of commands into array
+ * @param {string} answersString
+ */
+const parseCommands = (answersString) => {
+  return answersString.split(' ');
+}
+
+const initObjects = (commandsStr) => {
+  const table = new Table();
+  const robot = new Robot(table);
+  const manager = new CommandManager(robot, commandsStr);
+  return manager;
+}
 
 const init = () => {
   console.log(
@@ -26,15 +45,16 @@ const init = () => {
 }
 
 const run = async () => {
-  // show script introduction
+  // show introduction
   init();
 
-  // ask questions
+  // ask commands
   const answers = await askQuestions();
   const { commands } = answers;
-  console.log(
-    chalk.blueBright(`Commands: ${commands}`)
-  )
+  logStd(`Commands: ${parseCommands(commands)}`);
+  const manager = initObjects(commands);
+  // logDebug(manager);
+  manager.execute();
 };
 
 run();
