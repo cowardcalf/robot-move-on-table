@@ -1,9 +1,9 @@
 import chalk from 'chalk';
 import figlet from 'figlet';
 import inquirer from 'inquirer';
-import Table from './Models/Table.js';
-import CommandManager from './Controllers/CommandManager.js';
-import Robot from './Models/Robot.js';
+import Table from './models/Table.js';
+import CommandManager from './controllers/CommandManager.js';
+import Robot from './models/Robot.js';
 
 /**
  * Show the prompt to input commands
