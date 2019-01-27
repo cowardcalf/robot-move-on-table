@@ -83,10 +83,13 @@ export default class Robot {
   /**
    *  Report function.
    *  Assume not reporting if the robot never been placed.
+   *  @return {string}
    */
   report() {
     if (this.hasBeenPlaced) {
-      logStd(`${this.x},${this.y},${DIRECTIONS[this.face]}`);
+      const output = `${this.x},${this.y},${DIRECTIONS[this.face]}`;
+      logStd(output);
+      return output;
     }
   }
 
