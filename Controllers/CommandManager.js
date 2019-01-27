@@ -4,17 +4,23 @@ const COMMAND_LEFT = 'LEFT';
 const COMMAND_RIGHT = 'RIGHT';
 const COMMAND_REPORT = 'REPORT';
 
+/**
+ * Apply the commands to the robot
+ */
 export default class CommandManager {
   /**
-   *
+   * Construct with robot and the commands
    * @param {Robot} robot
-   * @param {string}commands
+   * @param {string} commands
    */
   constructor(robot, commands) {
     this.robot = robot;
     this.commands = commands.split(' ');
   }
 
+  /**
+   * Apply the commands in order
+   */
   execute() {
     this.commands.forEach((com, index) => {
       const capCom = com.toUpperCase();
@@ -45,7 +51,7 @@ export default class CommandManager {
   }
 
   /**
-   * Parse the string of parameters as x,y,face
+   * Parse the string of PLACE parameters as x,y,face
    * @param {string} params
    */
   parsePlaceParams(params) {

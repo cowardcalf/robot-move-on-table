@@ -1,12 +1,15 @@
 import chalk from 'chalk';
 import figlet from 'figlet';
 import inquirer from 'inquirer';
-import Table from './Table';
-import CommandManager from './CommandManager.js';
-import Robot from './Robot.js';
-import { logStd, logDebug } from './lib/logger.js';
+import Table from './Models/Table.js';
+import CommandManager from './Controllers/CommandManager.js';
+import Robot from './Models/Robot.js';
 
-const askQuestions = () => {
+/**
+ * Show the prompt to input commands
+ * @return {Promise}
+ */
+const prompt = () => {
   const questions = [
     {
       name: "commands",
@@ -18,13 +21,10 @@ const askQuestions = () => {
 };
 
 /**
- * Parse and transform the string of commands into array
- * @param {string} answersString
+ * Initialise the necessary objects and controller
+ * @param {String} commandsStr
+ * @return {CommandManager}
  */
-const parseCommands = (answersString) => {
-  return answersString.split(' ');
-}
-
 const initObjects = (commandsStr) => {
   const table = new Table();
   const robot = new Robot(table);
@@ -32,7 +32,10 @@ const initObjects = (commandsStr) => {
   return manager;
 }
 
-const init = () => {
+/**
+ * Show the introduction of this program
+ */
+const opening = () => {
   console.log(
     chalk.green(
       figlet.textSync("Robot Move on Table", {
@@ -44,16 +47,18 @@ const init = () => {
   );
 }
 
+/**
+ * The entrance of this program
+ */
 const run = async () => {
   // show introduction
-  init();
-
-  // ask commands
-  const answers = await askQuestions();
-  const { commands } = answers;
-  logStd(`Commands: ${parseCommands(commands)}`);
+  opening();
+  // receive commands
+  const consoleInputs = await prompt();
+  const { commands } = consoleInputs;
+  // initialise objects
   const manager = initObjects(commands);
-  // logDebug(manager);
+  // execute commands
   manager.execute();
 };
 

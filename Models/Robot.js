@@ -1,9 +1,17 @@
-import { logStd } from './lib/logger.js';
+import { logStd } from '../utils/logger.js';
 
 const DIRECTIONS = ['NORTH', 'EAST', 'SOUTH', 'WEST'];
 const NUM_OF_DIRECTIONS = DIRECTIONS.length;
 
+/**
+ * The Robot Object
+ */
 export default class Robot {
+  /**
+   * Initialise table constraints, x, y, face and if placed.
+   * In this case, we don't keep the Table object.
+   * @param {Table} table
+   */
   constructor(table) {
     this.maxX = table.width - 1;
     this.maxY = table.height - 1;
@@ -13,6 +21,12 @@ export default class Robot {
     this.hasBeenPlaced = false;
   }
 
+  /**
+   * Place function
+   * @param {number} x
+   * @param {number} y
+   * @param {string} face
+   */
   place(x, y, face) {
     if (this.validatePosition(x, y)) {
       this.x = x;
@@ -27,10 +41,15 @@ export default class Robot {
     }
   }
 
+  /**
+   * Move function. Must be placed before moving.
+   */
   move() {
     if (this.hasBeenPlaced) {
       let newX = this.x;
       let newY = this.y;
+      // Follow the index of directions
+      // 0, 2 are on Y axis; 1, 3 are on X axis
       if (this.face % 2 === 0) {
         newY += (this.face === 0) ? 1 : -1;
       } else {
@@ -43,13 +62,18 @@ export default class Robot {
     }
   }
 
-
+  /**
+   * Turning left function. Must be placed before turning.
+   */
   left() {
     if (this.hasBeenPlaced) {
       this.face = (this.face + NUM_OF_DIRECTIONS - 1) % NUM_OF_DIRECTIONS;
     }
   }
 
+  /**
+   * Turning right function. Must be placed before turning.
+   */
   right() {
     if (this.hasBeenPlaced) {
       this.face = (this.face + 1) % NUM_OF_DIRECTIONS;
@@ -57,16 +81,23 @@ export default class Robot {
   }
 
   /**
-   *  Assume not reporting if the robot never been placed
+   *  Report function.
+   *  Assume not reporting if the robot never been placed.
    */
   report() {
-    console.log('report');
     if (this.hasBeenPlaced) {
       logStd(`${this.x},${this.y},${DIRECTIONS[this.face]}`);
     }
   }
 
+  /**
+   * Validate the (x, y) is in the range of the table.
+   * Including the data type checking to avoid exceptions.
+   * @param {number} x
+   * @param {number} y
+   * @return {boolean}
+   */
   validatePosition(x, y) {
-    return (x >= 0 && x <= this.maxX) && (y >= 0 && y <= this.maxY)
+    return (typeof x === 'number' && typeof y === 'number') && (x >= 0 && x <= this.maxX) && (y >= 0 && y <= this.maxY)
   }
 }

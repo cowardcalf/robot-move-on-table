@@ -1,6 +1,9 @@
 const DEFAULT_TABLE_WIDTH = 5;
 const DEFAULT_TABLE_HEIGHT = 5;
 
+/**
+ * The Table Object
+ */
 export default class Table {
   /**
    * Constructor of the Class Table
