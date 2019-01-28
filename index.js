@@ -1,34 +1,19 @@
 import chalk from 'chalk';
 import figlet from 'figlet';
-import inquirer from 'inquirer';
 import Table from './models/Table.js';
 import CommandManager from './controllers/CommandManager.js';
 import Robot from './models/Robot.js';
-
-/**
- * Show the prompt to input commands
- * @return {Promise}
- */
-const prompt = () => {
-  const questions = [
-    {
-      name: "commands",
-      type: "input",
-      message: "Please input the commands (separated by space):"
-    }
-  ];
-  return inquirer.prompt(questions);
-};
+import { receiveCommands } from './utils/input.js';
 
 /**
  * Initialise the necessary objects and controller
  * @param {String} commandsStr
  * @return {CommandManager}
  */
-const initObjects = (commandsStr) => {
+const initObjects = (commands) => {
   const table = new Table();
   const robot = new Robot(table);
-  const manager = new CommandManager(robot, commandsStr);
+  const manager = new CommandManager(robot, commands);
   return manager;
 }
 
@@ -54,8 +39,7 @@ const run = async () => {
   // show introduction
   opening();
   // receive commands
-  const consoleInputs = await prompt();
-  const { commands } = consoleInputs;
+  const commands = await receiveCommands();
   // initialise objects
   const manager = initObjects(commands);
   // execute commands
