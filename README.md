@@ -41,9 +41,9 @@ Input can be from a file, or from standard input, as the developer chooses.
 The robot must not fall off the table during movement. This also includes the initial placement of the robot. Any move that would cause the robot to fall must be ignored.
 
 ### Assumptions
-1. The format of commands are always correct.
-2. Incorrect command would not stop the program.
-3. The x/y values of placing could be decimal number.
+1. Incorrect command would not stop the program.
+1. The x/y values of placing could be decimal number.
+1. Do not report if commands are invalid including that the robot never been placed.
 
 ## Technical Issue
 
@@ -52,3 +52,45 @@ Haven't found a way of inputing a copied text with enters via [Inquirer.js](http
 However, I've implement a runnable version of inputing commands line by line (In branch [input-commands-by-lines](https://github.com/cowardcalf/robot-move-on-table/tree/input-commands-by-lines)). 
 It accepts manual input only. (Cannot receive copied texts including enters)
 - No unit tests on functions using [chalk](https://github.com/chalk/chalk), [figlet-js](https://github.com/scottgonzalez/figlet-js), [Inquirer.js](https://github.com/SBoudrias/Inquirer.js). Haven't found any suggested way of testing them.
+
+## Test Data
+- Any action without placing.
+```
+Input:  MOVE LEFT RIGHT MOVE REPORT
+Output: (Nothing)
+```
+- Place and valid move.
+```
+Input:  PLACE 0,0,NORTH MOVE REPORT
+Output: 0,1,NORTH
+
+Input:  PLACE 1,0,NORTH MOVE MOVE REPORT
+Output: 1,2,NORTH
+```
+- Place and valid turn & move
+```
+Input:  PLACE 1,2,EAST MOVE LEFT MOVE RIGHT MOVE MOVE RIGHT REPORT
+Output: 4,3,SOUTH
+
+Input:  PLACE 4,4,NORTH LEFT MOVE MOVE LEFT MOVE LEFT REPORT
+Output: 2,3,EAST
+```
+- Place and invalid turn & move
+```
+Input:  PLACE 0,0,WEST MOVE MOVE LEFT MOVE REPORT
+Output: 0,0,SOUTH
+
+Input:  PLACE 4,4,NORTH MOVE RIGHT MOVE MOVE REPORT
+Output: 4,4,EAST
+
+Input:  PLACE 3,0,EAST MOVE RIGHT MOVE LEFT LEFT MOVE REPORT
+Output: 4,1,NORTH
+```
+- Place after few of actions
+```
+Input:  MOVE LEFT MOVE RIGHT MOVE PLACE 2,4,WEST REPORT
+Output: 2,4,WEST
+
+Input:  MOVE RIGHT RIGHT MOVE MOVE PLACE 1,3,SOUTH MOVE LEFT MOVE REPORT
+Output: 2,2,EAST
+```
