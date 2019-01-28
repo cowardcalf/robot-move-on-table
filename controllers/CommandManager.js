@@ -10,44 +10,62 @@ const COMMAND_REPORT = 'REPORT';
 export default class CommandManager {
   /**
    * Construct with robot and the commands
-   * @param {Robot} robot
+   * @param {Robot|undefined} robot
    * @param {string} commands
    */
-  constructor(robot, commands) {
+  constructor(robot = undefined, commands = '') {
+    this.setRobot(robot);
+    this.setCommands(commands);
+  }
+
+  /**
+   * Robot etter
+   * @param {Robot} robot
+   */
+  setRobot(robot) {
     this.robot = robot;
-    this.commands = commands.split(' ');
+  }
+
+  /**
+   * Commands setter
+   * @param {string} commands
+   */
+  setCommands(commands) {
+    this.commands = commands ? commands.split(' ') : [];
   }
 
   /**
    * Apply the commands in order
    */
   execute() {
-    this.commands.forEach((com, index) => {
-      const capCom = com.toUpperCase();
-      switch(capCom) {
-        case COMMAND_PLACE:
-          // get parameters from the next element of the commands array
-          const {x, y, face} = this.parsePlaceParams(this.commands[index + 1]);
-          this.robot.place(
-            x, y, face
-          );
-          break;
-        case COMMAND_MOVE:
-          this.robot.move();
-          break;
-        case COMMAND_LEFT:
-          this.robot.left();
-          break;
-        case COMMAND_RIGHT:
-          this.robot.right();
-          break;
-        case COMMAND_REPORT:
-          this.robot.report();
-          break;
-        default:
-          break;
-      }
-    });
+    if (this.robot && this.commands) {
+      this.commands.forEach((com, index) => {
+        const capCom = com.toUpperCase();
+        switch(capCom) {
+          case COMMAND_PLACE:
+            // get parameters from the next element of the commands array
+            const {x, y, face} = this.parsePlaceParams(this.commands[index + 1]);
+            this.robot.place(
+              x, y, face
+            );
+            break;
+          case COMMAND_MOVE:
+            this.robot.move();
+            break;
+          case COMMAND_LEFT:
+            this.robot.left();
+            break;
+          case COMMAND_RIGHT:
+            this.robot.right();
+            break;
+          case COMMAND_REPORT:
+            this.robot.report();
+            break;
+          default:
+            break;
+        }
+      });
+    }
   }
 
   /**

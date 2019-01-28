@@ -29,7 +29,7 @@ describe('Robot constructor tests', function () {
 });
 
 describe('Robot setters tests', function () {
-  it('Table setter should update the table property', function () {
+  it('Table setter should update maxX and maxY via the Table object', function () {
     const robot = new Robot();
     const table = new Table();
     expect(robot.maxX).to.equal(0);
