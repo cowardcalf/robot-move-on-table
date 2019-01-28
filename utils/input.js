@@ -28,7 +28,6 @@ const receiveCommands = async () => {
   do {
     consoleInput = await commandPrompt();
     recentCommand = consoleInput.command;
-    console.log(recentCommand);
     if (recentCommand !== '') {
       commandsArr.push(recentCommand);
     }
