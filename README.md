@@ -6,7 +6,7 @@ It is a Node.js project using pure javascript(ES6).
 It is a pure console CLI application. All setup, running, testing, input/output can be done in the terminal.
 
 ## Setup
-1. Install [Node.js](https://nodejs.org/en/) on your machine.
+1. Install [Node.js](https://nodejs.org/en/)(>8) on your machine.
 1. Install [Yarn](https://yarnpkg.com/en/docs/install).
 1. Clone/Download the project from https://github.com/cowardcalf/robot-move-on-table.git
 1. Enter the local directory of the project.
