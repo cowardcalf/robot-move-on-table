@@ -7,6 +7,12 @@ const setupRobot = () => {
 }
 
 describe('Robot constructor tests', function () {
+  it('New Robot without table should initialise maxX and maxY with 0'), function () {
+    const robot = new Robot();
+    expect(robot.maxX).to.equal(0);
+    expect(robot.maxY).to.equal(0);
+  };
+
   it('New Robot should initialise maxX and maxY via the Table object', function () {
     const robot = setupRobot();
     expect(robot.maxX).to.equal(4);
@@ -20,6 +26,18 @@ describe('Robot constructor tests', function () {
     expect(robot.face).to.equal(0);
     expect(robot.hasBeenPlaced).to.be.false;
   });
+});
+
+describe('Robot setters tests', function () {
+  it('Table setter should update the table property', function () {
+    const robot = new Robot();
+    const table = new Table();
+    expect(robot.maxX).to.equal(0);
+    expect(robot.maxY).to.equal(0);
+    robot.setTable(table);
+    expect(robot.maxX).to.equal(table.width - 1);
+    expect(robot.maxY).to.equal(table.height - 1);
+  })
 });
 
 describe('Validate position function tests', function () {

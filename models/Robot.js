@@ -9,16 +9,27 @@ const NUM_OF_DIRECTIONS = DIRECTIONS.length;
 export default class Robot {
   /**
    * Initialise table constraints, x, y, face and if placed.
-   * In this case, we don't keep the Table object.
-   * @param {Table} table
+   * @param {Table|undefined} table
    */
-  constructor(table) {
-    this.maxX = table.width - 1;
-    this.maxY = table.height - 1;
+  constructor(table = undefined) {
+    this.maxX = 0;
+    this.maxY = 0;
+    this.setTable(table);
     this.x = 0;
     this.y = 0;
     this.face = 0;
     this.hasBeenPlaced = false;
+  }
+
+  /**
+   * Set max x and y referring to a table object
+   * @param {Table} table
+   */
+  setTable(table) {
+    if (table) {
+      this.maxX = table.width - 1;
+      this.maxY = table.height - 1;
+    }
   }
 
   /**
